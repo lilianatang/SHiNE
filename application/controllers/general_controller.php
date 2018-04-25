@@ -14,6 +14,11 @@ class General_controller extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('session');
 
+		/* Destroy user session data if the user has logged out */
+		if ($this->session->has_userdata('user_id')){
+              		$this->session->unset_userdata('user_id');
+        }
+
 		$this->general_views = "general/";
 
 }
@@ -28,5 +33,12 @@ class General_controller extends CI_Controller {
 		$this->load->view($this->general_views . 'Home_head');
 		$this->load->view($this->general_views . 'Home_body');
 	}
+
+	public function view_login($message = ""){
+		$data['error'] = $message;
+		$this->load->view('login', $data);
+	}
+
+
 
 }

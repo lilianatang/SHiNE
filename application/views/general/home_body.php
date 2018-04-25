@@ -22,7 +22,7 @@
                     <li><a class="smoothscroll"  href="#works" title="works">Works</a></li>
                     <li><a class="smoothscroll"  href="#clients" title="clients">Clients</a></li>
                     <li><a class="smoothscroll"  href="#contact" title="contact">Contact</a></li>
-                    <li><a class="smoothscroll"  href="#login" title="login">Log In</a></li>
+                    <li><a class="smoothscroll"  href="view_login" title="login">Log In</a></li>
                     <li><a class="smoothscroll"  href="#register" title="login">Register</a></li>
 
                 </ul>
@@ -64,10 +64,42 @@
                     children in Edmonton to offer <br> resources and support.
                 </h1>
 
+                <!-- Log in button-->
                 <div class="home-content__buttons">
-                    <a href="#contact" class="smoothscroll btn btn--stroke">
-                        Become a Member
-                    </a>
+                   
+                        <button onclick="document.getElementById('id01').style.display='block'" class="smoothscroll btn btn--stroke" style="width:auto;">Login
+                        </button>
+
+                        <div id="id01" class="modal">
+                            <form class="modal-content animate" action="/action_page.php">
+                                <div class="imgcontainer">
+                                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                    <img src="<?php echo base_url('media/shine_logo.jpg'); ?>" alt="SHiNE logo" class="avatar">
+                                </div>
+
+                        <!-- The log in form -->
+                                <div class="container">
+                                    <label for="uname"><b>Username</b></label>
+                                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                                    <label for="psw"><b>Password</b></label>
+                                    <input type="password" placeholder="Enter Password" name="psw" required>
+                
+                                    <button type="submit">Login</button>
+                                    <label>
+
+                                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                                    </label>
+                                    </div>
+
+                                    <div class="container" style="background-color:#f1f1f1">
+                                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                                    <span class="psw"><a href="#">Forgot password?</a></span>
+                                    </div>
+                            </form>
+                        </div>
+
+
                     <a href="#about" class="smoothscroll btn btn--stroke">
                         Learn About Us
                     </a>
@@ -427,6 +459,18 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>script/plugins.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>script/main.js"></script>
 
+
+    <script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
 </body>
 
 </html>

@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>style/base.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>style/vendor.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>style/main.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>style/login.css">
 
     <!-- script
     ================================================== -->
