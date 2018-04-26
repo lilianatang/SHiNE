@@ -69,7 +69,7 @@
                         </button>
 
                         <div id="id01" class="modal">
-                            <form name = "log_in" class="modal-content animate">
+                            <form name = "log_in" class="modal-content animate" action="login_validation" method="post">
                                 <div class="imgcontainer">
                                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                                     <img src="<?php echo base_url('media/shine_logo.jpg'); ?>" alt="SHiNE logo" class="avatar">

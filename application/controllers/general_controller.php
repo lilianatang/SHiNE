@@ -38,46 +38,50 @@ class General_controller extends CI_Controller {
 	public function login_validation(){
 		$this->form_validation->set_rules('uname', 'uname', 'required');
 		$this->form_validation->set_rules('psw', 'psw', 'required');
+		echo 'form validation';
 
 		if ($this->form_validation->run()){
 			$username = $this->input->post('uname');
 			$pwd = $this->input->post('psw');
 			$result = $this->general_model->check_credentials($username, $pwd);
+			echo 'i am here';
 
 			if (empty($result['user_id'])){
 					//$this->login('Invalid Login Credentials');
+					echo 'empty';
 					return 'Invalid Login Credentials';
 				}
 
-				else {
+			else {
 
-						switch ($result['role']){
+					switch ($result['role']){
 
-							// Admin Login
-							case 1: 
+						// Admin Login
+						case 1: 
+							echo 'admin';
 
-								$this->session->set_userdata($result);
+							$this->session->set_userdata($result);
 
-								redirect('admin_controller');
+							redirect('admin_controller');
 
-								break;
+							break;
 
-							// Member Login
-							case 2: 
-								
-								$this->session->set_userdata($result);
-
-								redirect('member_controller');
-								break;
-
+						// Member Login
+						case 2: 
 							
-							
-							// Display error message
-							default:  
-								return "Invalid Login Credentials";
-							}
-					} // end else
-	       	 	}// end if 
+							$this->session->set_userdata($result);
+
+							redirect('member_controller');
+							break;
+
+						
+						
+						// Display error message
+						default:  
+							return "Invalid Login Credentials";
+						}
+				} // end else
+	       	}// end if 
 	    return "Invalid Login Credentials";
 		}
 

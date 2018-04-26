@@ -32,9 +32,10 @@ class General_model extends CI_Model {
 	    $result = $query->row_array();
 
 	    if ( !$result  ){
-	    	return 'no result';
+	    	return 'Error occurs!';
 	    }
 	    else{
+	    	
 	    	return $result;
 	    }
 	    
