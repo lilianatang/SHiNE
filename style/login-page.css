@@ -1,0 +1,48 @@
+
+body {
+	text-align: center;
+	background-color: #A1EF8B;
+	margin-top: 55px;
+}
+
+input {
+	margin: 10px 10px 10px 10px;
+	width: 250px;
+	height: 25px;
+}
+
+button {
+	
+	margin:10px 10px 10px 10px; 
+	height: 30px;
+	width: 80px;
+	
+}
+
+#logo {	
+	width: 450px;
+}
+
+#login-form {
+	
+	font-family: sans-serif;
+	font-weight: bold;
+	
+}
+
+#id-label {
+	margin: 20px 210px 20px 20px;
+}
+
+#password-label {
+	margin: 20px 190px 20px 20px;
+	
+}
+
+#password-input {
+	font-size: 15px;
+	font-family: caption;
+}
+
+
+

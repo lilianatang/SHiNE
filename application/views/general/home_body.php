@@ -22,8 +22,6 @@
                     <li><a class="smoothscroll"  href="#works" title="works">Works</a></li>
                     <li><a class="smoothscroll"  href="#clients" title="clients">Clients</a></li>
                     <li><a class="smoothscroll"  href="#contact" title="contact">Contact</a></li>
-                    <li><a class="smoothscroll"  href="view_login" title="login">Log In</a></li>
-                    <li><a class="smoothscroll"  href="#register" title="login">Register</a></li>
 
                 </ul>
     
@@ -71,7 +69,7 @@
                         </button>
 
                         <div id="id01" class="modal">
-                            <form class="modal-content animate" action="/action_page.php">
+                            <form name = "log_in" class="modal-content animate">
                                 <div class="imgcontainer">
                                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                                     <img src="<?php echo base_url('media/shine_logo.jpg'); ?>" alt="SHiNE logo" class="avatar">
@@ -98,6 +96,23 @@
                                     </div>
                             </form>
                         </div>
+                        <script>
+                            function validateForm() {
+                            var x = document.forms["log_in"]["uname"].value;
+                            var y = document.forms["log_in"]["psw"].value;
+                            if (x == "") {
+                                alert("Username must be filled out!");
+                                return false;
+                            }
+
+                            if (y == "") {
+                                alert("Password must be filled out!");
+                                return false;
+                            }
+
+
+                        }
+                        </script>
 
 
                     <a href="#about" class="smoothscroll btn btn--stroke">
@@ -250,8 +265,8 @@
         <div class="row section-header" data-aos="fade-up">
             <div class="col-full">
                 <h3 class="subhead">Partnerships</h3>
-                <h1 class="display-2">SHiNE has been honored to
-                partner up with these organizations</h1>
+                <h1 class="display-2">We are thankful to all our partners and friends who provided funding, support and awareness for the cause of inclusive home education
+                </h1>
             </div>
         </div> <!-- end section-header -->
 
@@ -259,14 +274,16 @@
             <div class="col-full">
                 <div class="clients">
                     
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/apple.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/atom.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/blackberry.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/dropbox.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/envato.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/firefox.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/joomla.png" /></a>
-                    <a href="#0" title="" class="clients__slide"><img src="images/clients/magento.png" /></a>
+                    <a href="https://www.culturetourism.alberta.ca/" title="" class="clients__slide"><img src="<?php echo base_url('media/alberta-culture-and-tourism.png'); ?>" /></a>
+                    <a href="http://www.albertafiddlers.com/" title="" class="clients__slide"><img src="<?php echo base_url('media/ASF-Logo.png'); ?>" /></a>
+                    <a href="http://www.blushlane.com/" title="" class="clients__slide"><img src="<?php echo base_url('media/Blush-Lane.png'); ?>" /></a>
+                    <a href="http://www.inmotionetwork.org/" title="" class="clients__slide"><img src="<?php echo base_url('media/in-motion-network.png'); ?>" /></a>
+                    <a href="http://www.jasna.org/about/regions/" title="" class="clients__slide"><img src="<?php echo base_url('media/jane-austen.jpg'); ?>" /></a>
+                    <a href="http://www.kids4cameras.com/" title="" class="clients__slide"><img src="<?php echo base_url('media/kids4cameras.png'); ?>" /></a>
+                    <a href="https://www.theorganicbox.ca/" title="" class="clients__slide"><img src="<?php echo base_url('media/organic-box.jpg'); ?>" /></a>
+                    <a href="https://www.instagram.com/penkee_productions/" title="" class="clients__slide"><img src="<?php echo base_url('media/penkee-productions.jpg'); ?>" /></a>
+                    <a href="http://www.regencyencounters.com/" title="" class="clients__slide"><img src="<?php echo base_url('media/regency-encounters.jpg'); ?>" /></a>
+                    <a href="https://www.seesa.ca/" title="" class="clients__slide"><img src="<?php echo base_url('media/SEESA.png'); ?>" /></a>
                      
                 </div> <!-- end clients -->
             </div> <!-- end col-full -->
