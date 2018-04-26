@@ -1,0 +1,233 @@
+/* ---------- Account Creation ---------- */
+
+/* Admin */
+
+#admin_account_creation_id{
+	margin-left: 20px;
+}
+
+#admin_account_creation_pw_confirm{
+	margin-right: 110px;
+}
+
+/* Board  Member */
+
+#board_account_creation_id{
+	margin-left: 22px;
+
+}
+
+#board_account_creation_pw_confirm{
+	margin-right: 110px;
+}
+
+
+
+
+
+/* Family */
+
+#family_account_creation_id{
+	margin-left: 22px;
+
+}
+
+#family_account_creation_pw_confirm{
+	margin-right: 110px;
+}
+
+.family_links{
+	color: #6d7fcc;
+}
+
+.family_links:hover{
+	color: black;
+}
+
+
+
+/* Facilitator */
+
+#Facilitator_creation_name{
+	margin-right: 48px;
+
+}
+
+
+#Facilitator_creation_email{
+	margin-left: 76px;
+}
+
+#Facilitator_creation_address{
+	margin-left: 54px;
+
+}
+
+/* Teacher */
+
+#Teacher_creation_id{
+	margin-left: 30px;
+
+}
+
+
+#Teacher_creation_pw{
+	margin-left: 8px;
+}
+
+#Teacher_creation_pw_confirm{
+	margin-right: 102px;
+
+}
+
+/* General */
+
+#General_creation_id{
+	margin-left: 22px;
+}
+
+#General_creation_pw_confirm{
+	margin-right: 110px;
+
+}
+
+
+/*	-------- Account Removal --------   */
+
+
+/*	Facilitator Removal  */
+#Facilitator_removal{
+	margin-right: 26px;
+
+}
+
+/*	Student Removal  */
+
+#Student_removal{
+	margin-right: 10px;
+
+}
+
+/* ----- Account Edit ------ */
+
+
+/* Admin Edit	  */
+
+#Admin_edit_pw{
+	margin-left: 34px;
+
+}
+
+#Admin_edit_pw_confirm{
+	margin-right: 77PX;
+}
+
+/* Family  Edit	  */
+
+#Family_edit_pw{
+	margin-left: 20px;
+
+}
+
+#Family_edit_pw_confirm{
+	margin-right: 90PX;
+}
+
+
+/* Board Member  Edit	  */
+
+#Board_edit_pw{
+	margin-left: 48px;
+
+}
+
+#Board_edit_pw_confirm{
+	margin-right: 62PX;
+}
+
+
+/* Facilitator Edit	  */
+
+#Facilitator_edit_select{
+	margin-right: 28px;
+
+}
+
+#Facilitator_edit_name{
+	margin-left: 38px;
+
+}
+
+#Facilitator_edit_phone{
+	margin-left: 2px;
+
+}
+
+#Facilitator_edit_email{
+	margin-left: 76px;
+
+}
+
+#Facilitator_edit_address{
+	margin-left: 55px;
+}
+
+/* Teacher Edit	  */
+
+#Teacher_edit_pw{
+	margin-left: 8px;
+
+}
+
+#Teacher_edit_pw_confirm{
+	margin-right: 60PX;
+}
+
+
+
+/* Student Edit	  */
+
+#Student_edit_color{
+	margin-right: 15px;
+
+}
+
+#Student_edit_grade{
+	margin-left: 32px; 
+
+}
+
+#Student_edit_select{
+	margin-right: 10px; 
+
+}
+
+/* General Edit	  */
+
+#General_edit_pw_confirm{
+	margin-right: 110PX;
+}
+
+
+
+
+
+
+/* ----- Family Stats ------ */
+
+#year_select{
+	margin-left: 20px;
+}
+
+#family_select{
+	margin-left: 6px;
+}
+
+/* ----- Family Stats ------ */
+
+#label_format{
+	font-weight: normal;
+	color: black;
+
+}
+

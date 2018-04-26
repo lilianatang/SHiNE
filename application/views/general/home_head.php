@@ -27,7 +27,7 @@
 
     <!-- script
     ================================================== -->
-    <script type="text/javascript" src="<?php echo base_url(); ?>script/modernizr.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>script/modernizr1.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>script/pace.min.js"></script>
 
     <!-- favicons

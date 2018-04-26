@@ -1,0 +1,58 @@
+/*-------------------------------------------------------------
+* This document styling for the Account creation page. 
+*
+* Author: Wesley Olson
+*--------------------------------------------------------------*/
+
+
+.main_div_pages{
+	text-align: center;
+	clear:both;
+}
+
+
+
+#account-creation-warning{
+	margin: 10px;
+	color: red;
+    float: left;
+
+}
+
+
+.button {
+    display: inline-block;
+    width: 115px;
+    background: rgb(131,216,95);
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 20px; 
+
+}
+
+.button:hover
+{
+    background: rgb(172, 228, 148) ;
+}
+
+.button:disabled,
+.button[disabled]
+{
+    background: lightgrey ;
+}
+
+
+.fancybigtext{
+    font-family: 'Aclonica';
+    color: #4c7a34;
+    font-size: 26px;
+}
+
+.fancynormaltext{
+    font-family:calibri;
+    font-size: 20px;
+}

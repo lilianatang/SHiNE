@@ -1,0 +1,81 @@
+
+/* PRIMARY COMPONENTS - This contains style rules that apply to ALL pages */
+
+.centered {
+    text-align: center;
+}
+
+/* Primary button is the large blue buttons */
+.primary_button
+{
+    display: inline-block;
+    background: #6d7fcc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 20px; 
+}
+
+.primary_button:hover
+{
+    background: rgb(172, 228, 148);
+    text-decoration: none;
+}
+
+.user-message 
+{
+    color: black;
+    font-weight: bold;
+}
+
+.spacing{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#submit{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.main-sub-container{
+    display: inline-block;
+}
+
+.date-picker
+{
+    width: 135px;
+}
+/*--------------------------SPECIFIC RULES------------------------------*/
+
+/*  DONATION   */
+
+#donation-input 
+{
+    width: 100px;
+}
+
+
+/* MY BOOKINGS  */
+
+/* Bookings Table */
+
+#bookings-table{
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#bookings-table th{
+    padding: 12px;
+    text-align: left;
+    background-color: #A1EF8B;
+    font-weight: bold;
+}
+
+#bookings-table td, #bookings-table th{
+    border: 1px solid #ddd;
+    padding: 8px;
+}

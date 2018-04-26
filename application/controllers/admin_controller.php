@@ -12,7 +12,7 @@ class Admin_controller extends CI_Controller {
                 parent::__construct();
                 $this->file_path = realpath(APPPATH . '../assets/csv');
 
-                $this->load->model('portal_model');
+                $this->load->model('admin_model');
                 $this->load->model('calendar_model');
                 // This is a tool used to generate a URL and link a new page 
                 $this->load->helper('url_helper');
@@ -20,7 +20,6 @@ class Admin_controller extends CI_Controller {
                 $this->load->helper('download');
                 $this->load->library('form_validation');
               	$this->load->library('session');
-              	$this->load->library('PHPReport');
                
               	// These variables just hold the names of the folders that contain their respective views
               	// in case we want to change the folders later
@@ -37,7 +36,7 @@ class Admin_controller extends CI_Controller {
         private function check_login() 
 		{
 			// Check if someone is currently logged in 
-		 	if($this->session->userdata('role_id') != 1){
+		 	if($this->session->userdata('role') != 1){
             	redirect('login');
        		 }
 		}
@@ -63,7 +62,7 @@ class Admin_controller extends CI_Controller {
 			// Check if someone is currently logged in 
 		 	$this->check_login();
 
-			$data['data'] = $this->portal_model->getFamilyUserIds();
+			$data['data'] = $this->admin_model->getFamilyUserIds();
 			
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view( $this->admin_views . 'admin_family_statistics_body', $data);
@@ -142,7 +141,7 @@ class Admin_controller extends CI_Controller {
 						// Make sure the time inputs are valid 
 						if ( $this->is_valid_range($fieldtrip_info['start_time'], $fieldtrip_info['end_time']) ){
 
-							$message = $this->portal_model->create_fieldtrip($fieldtrip_info);
+							$message = $this->admin_model->create_fieldtrip($fieldtrip_info);
 
 						}
 						else {
@@ -174,7 +173,7 @@ class Admin_controller extends CI_Controller {
 					// Make sure the time inputs are valid 
 					if ( $this->is_valid_range($fieldtrip_info['start_time'], $fieldtrip_info['end_time']) ){
 
-						$message = $this->portal_model->create_fieldtrip($fieldtrip_info);
+						$message = $this->admin_model->create_fieldtrip($fieldtrip_info);
 
 					}
 					else {
@@ -318,7 +317,7 @@ class Admin_controller extends CI_Controller {
 				// Make sure the time inputs are valid 
 				if ( $this->is_valid_range($start_time, $end_time) ){
 
-					$message = $this->portal_model->edit_slot($slot_id, $start_time, $end_time, $num_facilitators);
+					$message = $this->admin_model->edit_slot($slot_id, $start_time, $end_time, $num_facilitators);
 
 				}
 				else {
@@ -373,10 +372,10 @@ class Admin_controller extends CI_Controller {
 				// Make sure the time inputs are valid 
 				if ( $this->is_valid_range($start_time, $end_time) ){
 					// Edit the basic slot information
-					$message = $this->portal_model->edit_slot($slot_id, $start_time, $end_time, $num_facilitators);
+					$message = $this->admin_model->edit_slot($slot_id, $start_time, $end_time, $num_facilitators);
 					// Edit the fieldtrip-related fields if the previous edit was successful
 					if ($message == 'Slot successfully updated!') {
-						$this->portal_model->edit_fieldtrip($slot_id, $desc, $full_desc, $location);
+						$this->admin_model->edit_fieldtrip($slot_id, $desc, $full_desc, $location);
 					}
 				}
 
@@ -429,7 +428,7 @@ class Admin_controller extends CI_Controller {
 		{
 			$slot_id = $this->input->post('slot_id');
 
-			$this->portal_model->delete_slot($slot_id);
+			$this->admin_model->delete_slot($slot_id);
 
 			$this->time_slot_management('Slot successfully deleted!');
 		}
@@ -482,7 +481,7 @@ class Admin_controller extends CI_Controller {
 				//run them through a for each loop and call delete_single_slot(from model)
 				foreach ($date_ids as $id)
 				{
-					$this->portal_model->delete_slot($id['slot_id']);
+					$this->admin_model->delete_slot($id['slot_id']);
 				}
 				return "All slots successfully deleted!";
 			}
@@ -567,11 +566,11 @@ class Admin_controller extends CI_Controller {
 				{
 					if ($this->is_valid_range($start_time, $end_time) && $this->is_valid_range($lstart_time, $lend_time) && $this->is_valid_range($astart_time, $aend_time))
 					{
-						$this->portal_model->create_timeslot($class, $start_time,$end_time,$num_facilitators,$i->format("Y-m-d"),0); 
+						$this->admin_model->create_timeslot($class, $start_time,$end_time,$num_facilitators,$i->format("Y-m-d"),0); 
 								
-						$this->portal_model->create_timeslot($class, $lstart_time,$lend_time,$lnum_facilitators,$i->format("Y-m-d"),0); 
+						$this->admin_model->create_timeslot($class, $lstart_time,$lend_time,$lnum_facilitators,$i->format("Y-m-d"),0); 
 					
-						$this->portal_model->create_timeslot($class, $astart_time,$aend_time,$anum_facilitators,$i->format("Y-m-d"),0);
+						$this->admin_model->create_timeslot($class, $astart_time,$aend_time,$anum_facilitators,$i->format("Y-m-d"),0);
 					}
 					else
 					{
@@ -610,7 +609,7 @@ class Admin_controller extends CI_Controller {
 				// Make sure the time inputs are valid 
 				if ($this->is_valid_range($start_time, $end_time))
 				{
-					$message = $this->portal_model->create_timeslot($class, $start_time,$end_time,$num_facilitators,$s_date,0); 
+					$message = $this->admin_model->create_timeslot($class, $start_time,$end_time,$num_facilitators,$s_date,0); 
 					$this->time_slot_management($message);	 
 				}
 				else
@@ -651,7 +650,7 @@ class Admin_controller extends CI_Controller {
 		{
 			$this->check_login();
 			
-			$data ['slot_times'] = $this->portal_model->get_defaults();
+			$data ['slot_times'] = $this->admin_model->get_defaults();
 			$data['classroom_data'] = $this->calendar_model->getClasses();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'create_timeslot_range_body',$data);
@@ -668,7 +667,7 @@ class Admin_controller extends CI_Controller {
 		{
 			$this->check_login();
 			
-			$data ['slot_times'] = $this->portal_model->get_defaults();
+			$data ['slot_times'] = $this->admin_model->get_defaults();
 			$data['title'] = 'Default Time Settings';
 			$data['message'] = $message;
 			$this->load->view($this->admin_views . 'sidebar');
@@ -721,7 +720,7 @@ class Admin_controller extends CI_Controller {
 				$message = "Update unsuccessful due to invalid form input.";
 				if (count($form_info) == 3)
 				{
-					$this->portal_model->update_defaults($form_info);
+					$this->admin_model->update_defaults($form_info);
 					$message = "Update successful!";
 				}
 
@@ -790,7 +789,7 @@ class Admin_controller extends CI_Controller {
 		{
 
 			$family_id = $this->input->post('u_id');
-			$result = $this->portal_model->get_facilitators($family_id);
+			$result = $this->admin_model->get_facilitators($family_id);
 
 			foreach ($result as $row){
 				echo $row["name"] . ',';
@@ -808,7 +807,7 @@ class Admin_controller extends CI_Controller {
 		public function get_students()
 		{
 			$user_id = $this->input->post('u_id');
-			$result = $this->portal_model->get_students($user_id);
+			$result = $this->admin_model->get_students($user_id);
 
 			foreach ($result as $row){
 				echo $row["first_name"] . " " . $row["last_name"] . ',';
@@ -829,7 +828,7 @@ class Admin_controller extends CI_Controller {
 			$year = $this->input->post('year');
 			$this->db->order_by('start_date', 'ASC');
 
-			$result = $this->portal_model->getFamilyHistory($userID,$year,$month);
+			$result = $this->admin_model->getFamilyHistory($userID,$year,$month);
 
 
 			foreach ($result as $row){
@@ -851,7 +850,7 @@ class Admin_controller extends CI_Controller {
 			$year = $this->input->post('y');
 			$month = $this->input->post('m');
 
-			$result = $this->portal_model->getYearlyHours($userID, $year, $month);
+			$result = $this->admin_model->getYearlyHours($userID, $year, $month);
 			echo $result;
 
 		}
@@ -869,7 +868,7 @@ class Admin_controller extends CI_Controller {
 			$year = $this->input->post('y');
 			$month = $this->input->post('m');
 
-			echo $this->portal_model->getMonthlyHours($userID, $month, $year);
+			echo $this->admin_model->getMonthlyHours($userID, $month, $year);
 		}
 
 		/*------------------------------------------------------------
@@ -896,7 +895,7 @@ class Admin_controller extends CI_Controller {
 		*------------------------------------------------------------*/
 		public function get_family_requirements()
 		{
-			$data = $this->portal_model->get_preset_requirements();
+			$data = $this->admin_model->get_preset_requirements();
 
 			foreach ($data as $row)
 	        {
@@ -919,7 +918,7 @@ class Admin_controller extends CI_Controller {
 			$num_students = $this->input->post('num');
 			$hours = $this->input->post('hours');
 
-			echo $this->portal_model->insert_family_requirement($num_students, $hours);
+			echo $this->admin_model->insert_family_requirement($num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
@@ -935,7 +934,7 @@ class Admin_controller extends CI_Controller {
 			$hours = $this->input->post('hours');
 			$id = $this->input->post('id');
 
-			echo $this->portal_model->update_family_requirement($id, $num_students, $hours);
+			echo $this->admin_model->update_family_requirement($id, $num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
@@ -951,7 +950,7 @@ class Admin_controller extends CI_Controller {
 			$hours = $this->input->post('hours');
 			$id = $this->input->post('id');
 
-			echo $this->portal_model->delete_family_requirement($id, $num_students, $hours);
+			echo $this->admin_model->delete_family_requirement($id, $num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
@@ -968,7 +967,7 @@ class Admin_controller extends CI_Controller {
 			$hourReq = $this->input->post('hours_required');
 			$id = $this->input->post('id');
 
-			$this->portal_model->update_history_entry($id,$hourG,$hourR,$hourC,$hourReq);
+			$this->admin_model->update_history_entry($id,$hourG,$hourR,$hourC,$hourReq);
 		}
 
 		/* ACCOUNT CREATION AND DELETION*/
@@ -1014,7 +1013,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['admin_info'] = $this->portal_model->getUsernames(1);
+			$data['admin_info'] = $this->admin_model->getUsernames(1);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_admin_body', $data);
@@ -1033,7 +1032,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$username = $this->input->post('username');
-				$this->portal_model->remove_admin_account($username); 
+				$this->admin_model->remove_admin_account($username); 
 				$this->admin_removal('Admin sucessfully removed!');
 			}
 			else {
@@ -1055,7 +1054,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['admin_info'] = $this->portal_model->getUsernames(5);
+			$data['admin_info'] = $this->admin_model->getUsernames(5);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_general_body', $data);
@@ -1074,7 +1073,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$username = $this->input->post('username');
-				$this->portal_model->remove_general_account($username); 
+				$this->admin_model->remove_general_account($username); 
 				$this->general_removal('This general account was sucessfully removed!');
 			}
 			else {
@@ -1096,7 +1095,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['boardmember_info'] = $this->portal_model->getUsernames(3);
+			$data['boardmember_info'] = $this->admin_model->getUsernames(3);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_board_member_body', $data);
@@ -1115,7 +1114,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$username = $this->input->post('username');
-				$this->portal_model->remove_board_member_account($username); 
+				$this->admin_model->remove_board_member_account($username); 
 				$this->board_member_removal("Board member successfully deleted!");
 			}
 			else {
@@ -1137,7 +1136,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['teacher_info'] = $this->portal_model->getUsernames(4);
+			$data['teacher_info'] = $this->admin_model->getUsernames(4);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_teacher_body', $data);
@@ -1156,7 +1155,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$username = $this->input->post('username');
-				$this->portal_model->remove_teacher_account($username); 
+				$this->admin_model->remove_teacher_account($username); 
 
 				$this->teacher_removal('Account successfully deleted!');
 			}
@@ -1179,7 +1178,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_student_body', $data);
 		}
@@ -1198,7 +1197,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$student_id = $this->input->post('student_id');
-				$this->portal_model->remove_student_account($student_id); 
+				$this->admin_model->remove_student_account($student_id); 
 				$this->student_removal('This student account was successfully removed!');
 			}
 			else {
@@ -1217,7 +1216,7 @@ class Admin_controller extends CI_Controller {
 		{
 
 			$user_id = $this->input->post('u_id');
-			$result = $this->portal_model->get_students($user_id);
+			$result = $this->admin_model->get_students($user_id);
 
 			foreach ($result as $row){
 				echo $row["first_name"] . " " . $row["last_name"] . "-" . $row["student_id"] . ',';
@@ -1239,7 +1238,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_facilitator_body', $data);
 		}
@@ -1259,7 +1258,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$facilitator_id = $this->input->post('facilitator_id');
-				$this->portal_model->remove_facilitator_account($facilitator_id); 
+				$this->admin_model->remove_facilitator_account($facilitator_id); 
 				$this->facilitator_removal('Account successfully deleted!');
 
 			}
@@ -1279,7 +1278,7 @@ class Admin_controller extends CI_Controller {
 		{
 
 			$user_id = $this->input->post('u_id');
-			$result = $this->portal_model->get_facilitators($user_id);
+			$result = $this->admin_model->get_facilitators($user_id);
 
 			foreach ($result as $row){
 				echo $row["name"] . "-" . $row["facilitator_id"] . ',';
@@ -1301,7 +1300,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_family_body', $data);
 		}
@@ -1319,7 +1318,7 @@ class Admin_controller extends CI_Controller {
 			if ($this->form_validation->run()){
 
 				$user_id = $this->input->post('username');
-				$this->portal_model->remove_family_account($user_id); 
+				$this->admin_model->remove_family_account($user_id); 
 				$this->family_removal('Account successfully removed');
 
 			}
@@ -1350,7 +1349,7 @@ class Admin_controller extends CI_Controller {
 			$this->load->helper('file');
 
 			/* get the object */
-			$report = $this->portal_model->get_history_data();
+			$report = $this->admin_model->get_history_data();
 
 			$delimiter = ",";
 			$newline = "\r\n";
@@ -1401,7 +1400,7 @@ class Admin_controller extends CI_Controller {
 			
 			if ($this->form_validation->run()){
 				
-				$message = $this->portal_model->create_general_account($this->input->post('username'), $this->input->post('password')); 
+				$message = $this->admin_model->create_general_account($this->input->post('username'), $this->input->post('password')); 
 				$this->general_creation($message);
 			}
 			else {
@@ -1445,7 +1444,7 @@ class Admin_controller extends CI_Controller {
 			
 			if ($this->form_validation->run()){
 				
-				$message = $this->portal_model->create_admin_account($this->input->post('username'), $this->input->post('password')); 
+				$message = $this->admin_model->create_admin_account($this->input->post('username'), $this->input->post('password')); 
 				$this->admin_creation($message);
 			}
 			else {
@@ -1489,7 +1488,7 @@ class Admin_controller extends CI_Controller {
 			
 			if ($this->form_validation->run()){
 				
-				$message = $this->portal_model->create_board_member_account($this->input->post('username'), $this->input->post('password'));
+				$message = $this->admin_model->create_board_member_account($this->input->post('username'), $this->input->post('password'));
 				$this->board_member_creation($message);
 			}
 			else {
@@ -1514,7 +1513,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Creation/create_facilitator_body', $data);
 		}
@@ -1546,7 +1545,7 @@ class Admin_controller extends CI_Controller {
 				'phone_number' => $this->input->post('phone_number')
 			 	);
 
-				$message = $this->portal_model->create_facilitator_account($data); 
+				$message = $this->admin_model->create_facilitator_account($data); 
 				$this->facilitator_creation($message);
 				
 			}
@@ -1572,7 +1571,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 
 			$data['classroom_data'] = $this->calendar_model->getClasses();
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();	
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();	
 			$data['message'] = $message;		
 
 			$this->load->view($this->admin_views . 'sidebar');
@@ -1605,7 +1604,7 @@ class Admin_controller extends CI_Controller {
 					'classroom_id' => $this->input->post('classroom_id')
 				);
 
-				$message = $this->portal_model->create_student_account($data); 
+				$message = $this->admin_model->create_student_account($data); 
 				$this->student_creation($message); 
 			} 
 
@@ -1661,7 +1660,7 @@ class Admin_controller extends CI_Controller {
 				'lname' => $this->input->post('last_name'),
 				'class_id' => $this->input->post('classroom_id') );
 
-				$message = $this->portal_model->create_teacher_account($data);
+				$message = $this->admin_model->create_teacher_account($data);
 				$this->teacher_creation($message);
 			} 
 
@@ -1708,7 +1707,7 @@ class Admin_controller extends CI_Controller {
 				
 				$username = $this->input->post('username');
 				$password = $this->input->post('password');
-				$message = $this->portal_model-> create_family_account($username, $password);
+				$message = $this->admin_model-> create_family_account($username, $password);
 
 				$this->family_creation($message);
 
@@ -1751,7 +1750,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_family_body', $data);
 		}
@@ -1775,7 +1774,7 @@ class Admin_controller extends CI_Controller {
 				$user_id = $this->input->post('user_id');
 				$pw = $this->input->post('password');
 
-				$message = $this->portal_model->edit_account($user_id,$pw);
+				$message = $this->admin_model->edit_account($user_id,$pw);
 				$this->family_edit($message);
 			}
 			else 
@@ -1796,7 +1795,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIds();
+			$data['family_info'] = $this->admin_model->getFamilyUserIds();
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_facilitator_body', $data);
@@ -1829,7 +1828,7 @@ class Admin_controller extends CI_Controller {
 				$email = $this->input->post('email');
 				$address = $this->input->post('address');
 
-				$message = $this->portal_model->edit_facilitator_account($fac_id,$first_name,$last_name,$phone,$email,$address);
+				$message = $this->admin_model->edit_facilitator_account($fac_id,$first_name,$last_name,$phone,$email,$address);
 				$this->facilitator_edit($message);
 			}
 			else 
@@ -1849,7 +1848,7 @@ class Admin_controller extends CI_Controller {
 		public function get_fac_info()
 		{
 			$fac_id = $this->input->post('f_id');
-			$result = $this->portal_model->find_facilitator_info($fac_id);
+			$result = $this->admin_model->find_facilitator_info($fac_id);
 
 			echo $result->first_name . "-" . $result->last_name . "-" . $result->email . "-" . $result->address . "-" . $result->phone_number;
 		}
@@ -1866,7 +1865,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['teacher_info'] = $this->portal_model->getUsersBasedOnId(4);
+			$data['teacher_info'] = $this->admin_model->getUsersBasedOnId(4);
 			$data['classroom_data'] = $this->calendar_model->getClasses();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_teacher_body', $data);
@@ -1902,11 +1901,11 @@ class Admin_controller extends CI_Controller {
 				$last_name = $this->input->post('l_name');
 				$classroom = $this->input->post("classroom_id");
 
-				$message = $this->portal_model->edit_teacher_account($teacher_id,$first_name,$last_name,$classroom);
+				$message = $this->admin_model->edit_teacher_account($teacher_id,$first_name,$last_name,$classroom);
 				if($checked)
 				{
 					$password = $this->input->post('password');
-					$message = $this->portal_model->edit_account($teacher_id,$password);
+					$message = $this->admin_model->edit_account($teacher_id,$password);
 				}
 
 				$this->teacher_edit($message);
@@ -1928,7 +1927,7 @@ class Admin_controller extends CI_Controller {
 		public function get_teacher_info()
 		{
 			$teacher_id = $this->input->post('t_id');
-			$result = $this->portal_model->find_teacher_info($teacher_id);
+			$result = $this->admin_model->find_teacher_info($teacher_id);
 
 			echo $result->first_name . "-" . $result->last_name . "-" . $result->classroom_id;
 		}
@@ -1945,7 +1944,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['admin_info'] = $this->portal_model->getUsersBasedOnId(1);
+			$data['admin_info'] = $this->admin_model->getUsersBasedOnId(1);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_admin_body', $data);
@@ -1970,7 +1969,7 @@ class Admin_controller extends CI_Controller {
 				$admin_id = $this->input->post('user_id');
 				$password = $this->input->post('password');
 
-				$message = $this->portal_model->edit_account($admin_id,$password);
+				$message = $this->admin_model->edit_account($admin_id,$password);
 
 				$this->admin_edit($message);
 			}
@@ -1991,7 +1990,7 @@ class Admin_controller extends CI_Controller {
 		public function get_student_info()
 		{
 			$student_id = $this->input->post('s_id');
-			$result = $this->portal_model->find_student_info($student_id);
+			$result = $this->admin_model->find_student_info($student_id);
 			
 			echo $result->first_name . "-" . $result->last_name . "-" . $result->grade . "-" . $result->classroom_id;
 		}
@@ -2009,7 +2008,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->portal_model->getFamilyUserIdsWithStudents();
+			$data['family_info'] = $this->admin_model->getFamilyUserIdsWithStudents();
 			$data['classroom_data'] = $this->calendar_model->getClasses();
 
 			$this->load->view($this->admin_views . 'sidebar');
@@ -2041,7 +2040,7 @@ class Admin_controller extends CI_Controller {
 				$classroom = $this->input->post("classroom_id");
 				$grade = $this->input->post('grade');
 
-				$message = $this->portal_model->edit_student_account($student_id,$first_name,$last_name,$classroom,$grade);
+				$message = $this->admin_model->edit_student_account($student_id,$first_name,$last_name,$classroom,$grade);
 
 				$this->student_edit($message);
 			}
@@ -2063,7 +2062,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['general_info'] = $this->portal_model->getUsersBasedOnId(5);
+			$data['general_info'] = $this->admin_model->getUsersBasedOnId(5);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_general_body', $data);
@@ -2088,7 +2087,7 @@ class Admin_controller extends CI_Controller {
 				$general_id = $this->input->post('user_id');
 				$password = $this->input->post('password');
 
-				$message = $this->portal_model->edit_account($general_id,$password);
+				$message = $this->admin_model->edit_account($general_id,$password);
 
 				$this->general_edit($message);
 			}
@@ -2110,7 +2109,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['board_info'] = $this->portal_model->getUsersBasedOnId(3);
+			$data['board_info'] = $this->admin_model->getUsersBasedOnId(3);
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_board_body', $data);
@@ -2135,7 +2134,7 @@ class Admin_controller extends CI_Controller {
 				$board_id = $this->input->post('user_id');
 				$password = $this->input->post('password');
 
-				$message = $this->portal_model->edit_account($board_id,$password);
+				$message = $this->admin_model->edit_account($board_id,$password);
 
 				$this->board_edit($message);
 			}

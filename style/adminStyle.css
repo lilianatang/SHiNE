@@ -1,0 +1,115 @@
+
+/* PRIMARY COMPONENTS - This contains style rules that apply to ALL pages */
+
+h2 {
+	font-weight: bold;
+	color: #6d7fcc;
+}
+
+h3 {
+	font-weight: bold;
+	color: black;
+}
+
+.bold {
+	font-weight: bold;
+}
+.centered {
+    text-align: center;
+    overflow: auto;
+}
+
+/* Primary button is the large blue buttons */
+.primary_button
+{
+    display: inline-block;
+    background: #6d7fcc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 20px; 
+}
+
+.primary_button:hover
+{
+    background: rgb(172, 228, 148);
+    text-decoration: none;
+}
+
+.user-message 
+{
+    color: black;
+    font-weight: bold;
+}
+
+.spacing{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#submit{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.main-sub-container{
+    display: inline-block;
+}
+
+.date-picker
+{
+    width: 135px;
+}
+
+/* Back button */
+
+.back {
+	 position:relative; 
+	 left:0
+	 margin-top: 0px;
+}
+/* 
+Use the following to make a back button: (preferably at the top of the page)
+<a class="primary_button back spacing" href="time_slot_creation">Back</a>
+*/
+
+/* ADMIN FAMILY STATISTICS */
+
+.admin_stats_select{
+	/* code to get semi-round select button look */
+	width: 100px;
+	-webkit-border-radius: 5px;
+  	-moz-border-radius: 5px;
+   	border-radius: 5px;
+}
+
+.jsgrid-container {
+	display: inline-block;  
+	vertical-align: top; 
+	margin-top: 30px;"
+}
+
+/* family info and table css */
+#main-info-container{
+	margin-top: 10px;
+	text-align: center;
+	display: inline-block;
+
+}
+
+.main-info-sub-container{
+	display: inline-block;
+	margin: 20px;
+}
+
+
+.preset-table {
+	margin-left: auto; 
+	margin-right: auto; 
+	width: auto;
+	display: none;
+}
+

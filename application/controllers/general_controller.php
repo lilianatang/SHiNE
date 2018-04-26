@@ -21,7 +21,7 @@ class General_controller extends CI_Controller {
 
 		$this->general_views = "general/";
 
-}
+	}
 
 	/* Home page is where the audience can see SHINE's mission statements, etc */
 

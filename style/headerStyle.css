@@ -1,0 +1,112 @@
+/* ---------------------------------------------------------
+* This document contains style attributes for each header
+*
+* Author: Wesley & Komal
+*--------------------------------------------------------*/
+
+/* Imports the Aclonica Font */
+@font-face { 
+	font-family: Aclonica; 
+	src: url('Aclonica-Regular.ttf'); 
+} 
+
+body {
+	font-family: sans-serif;
+}
+
+h1 {
+	font-family: Aclonica, sans-serif;
+	color: #6d7fcc;
+	font-size: 26px;
+	text-align: center;
+	margin: 50px 50px 50px 50px;
+}
+
+h2, label{
+	font-weight: bold;
+	font-size: 18px;
+}
+
+h3 {
+	font-size: 18px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+
+div.main-container {
+    width: 100%;
+}
+
+.navbar-container a{
+  border: thin solid white;
+} 
+
+.navbar-container{
+  overflow: hidden;
+  float; center;
+} 
+
+.navbar-container a{
+  float:right;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border: thin solid white;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.navbar-container a:hover {
+    background-color: grey;
+}
+
+.head-container {
+  background-color: #a1ef8b;
+}
+
+#logo{
+  width: 200px;
+  margin-left: 30px;
+}
+
+#logout-container{
+   float: right;
+}
+
+#logout-button{
+ 
+  float: top;
+  margin: 10px;
+  background: #6d7fcc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 20px;
+  border: none;
+}
+
+#logout-button:hover{
+  background: #A1EF8B;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#title{
+  float: right;
+/* styl for the section boxs*/
+.select{
+  height: 25px;
+  width: 130px;
+  /* code to get semi-round select button look */
+  -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
