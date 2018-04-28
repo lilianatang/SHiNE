@@ -48,24 +48,24 @@ class Admin_controller extends CI_Controller {
         public function index()
         {
 
-       		redirect('admin_controller/family_statistics');
+       		redirect('admin_controller/member_statistics');
 		}
 
 		/*--------------------------------------------------------------------------------------------------
-		* family_statistics()
-		* This method loads the family_statistics view
+		* member_statistics()
+		* This method loads the member_statistics view
 		*
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function family_statistics()
+		public function member_statistics()
 		{
 			// Check if someone is currently logged in 
 		 	$this->check_login();
 
-			$data['data'] = $this->admin_model->getFamilyUserIds();
+			$data['data'] = $this->admin_model->getmemberUserIds();
 			
 			$this->load->view($this->admin_views . 'sidebar');
-			$this->load->view( $this->admin_views . 'admin_family_statistics_body', $data);
+			$this->load->view( $this->admin_views . 'admin_member_statistics_body', $data);
 
 
 		}
@@ -751,7 +751,7 @@ class Admin_controller extends CI_Controller {
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
 		public function logout(){
-			redirect('login');
+			redirect('general_controller');
 		}
 
 
@@ -776,20 +776,20 @@ class Admin_controller extends CI_Controller {
 
 
 
-		/* ADMIN FAMILY STATISTICS */
+		/* ADMIN member STATISTICS */
 
 		/*------------------------------------------------------------
 		* get_facilitators
 		* This method retirieves all the facilitator associated with a given user id. 
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (admin-family-stats.js)
+		* NOTE: This method echos information for the caller function (admin-member-stats.js)
 		*------------------------------------------------------------*/
 		public function get_facilitators()
 		{
 
-			$family_id = $this->input->post('u_id');
-			$result = $this->admin_model->get_facilitators($family_id);
+			$member_id = $this->input->post('u_id');
+			$result = $this->admin_model->get_facilitators($member_id);
 
 			foreach ($result as $row){
 				echo $row["name"] . ',';
@@ -802,7 +802,7 @@ class Admin_controller extends CI_Controller {
 		* This method retirieves all the students associated with a given user id. 
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (admin-family-stats.js)
+		* NOTE: This method echos information for the caller function (admin-member-stats.js)
 		*------------------------------------------------------------*/
 		public function get_students()
 		{
@@ -816,10 +816,10 @@ class Admin_controller extends CI_Controller {
 
 		/*------------------------------------------------------------
 		* get_history
-		* This method retirieves all the history data for a given family at a given month and year 
+		* This method retirieves all the history data for a given member at a given month and year 
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (admin-family-stats.js)
+		* NOTE: This method echos information for the caller function (admin-member-stats.js)
 		*------------------------------------------------------------*/
 		public function get_history()
 		{
@@ -828,7 +828,7 @@ class Admin_controller extends CI_Controller {
 			$year = $this->input->post('year');
 			$this->db->order_by('start_date', 'ASC');
 
-			$result = $this->admin_model->getFamilyHistory($userID,$year,$month);
+			$result = $this->admin_model->getmemberHistory($userID,$year,$month);
 
 
 			foreach ($result as $row){
@@ -841,7 +841,7 @@ class Admin_controller extends CI_Controller {
 		* This method retirieves the number of hours completed in a given school year based on the year and month provided
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (admin-family-stats.js)
+		* NOTE: This method echos information for the caller function (admin-member-stats.js)
 		*------------------------------------------------------------*/
 		public function get_yearly_hours()
 		{
@@ -860,7 +860,7 @@ class Admin_controller extends CI_Controller {
 		* This method retirieves the number of hours completed in a given month
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (admin-family-stats.js)
+		* NOTE: This method echos information for the caller function (admin-member-stats.js)
 		*------------------------------------------------------------*/
 		public function get_monthly_hours()
 		{
@@ -873,7 +873,7 @@ class Admin_controller extends CI_Controller {
 
 		/*------------------------------------------------------------
 		* preset_requirements
-		* This method displays the family hourly requirements page 
+		* This method displays the member hourly requirements page 
 		* 
 		* Params & Return: NONE
 		*------------------------------------------------------------*/
@@ -887,13 +887,13 @@ class Admin_controller extends CI_Controller {
 
 
 		/*------------------------------------------------------------
-		* get_family_requirements
+		* get_member_requirements
 		* This method retrieves the existing hourly requirements from the database 
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (family_requirements_table.js)
+		* NOTE: This method echos information for the caller function (member_requirements_table.js)
 		*------------------------------------------------------------*/
-		public function get_family_requirements()
+		public function get_member_requirements()
 		{
 			$data = $this->admin_model->get_preset_requirements();
 
@@ -906,51 +906,51 @@ class Admin_controller extends CI_Controller {
 		}
 
 		/*------------------------------------------------------------
-		* insert_family_requirement
-		* This method inserts a new rule for family requirements
+		* insert_member_requirement
+		* This method inserts a new rule for member requirements
 		* 
 		* Params & Return: NONE
-		* NOTE: This method echos information for the caller function (family_requirements_table.js)
+		* NOTE: This method echos information for the caller function (member_requirements_table.js)
 		*------------------------------------------------------------*/
-		public function insert_family_requirement()
+		public function insert_member_requirement()
 		{
 			
 			$num_students = $this->input->post('num');
 			$hours = $this->input->post('hours');
 
-			echo $this->admin_model->insert_family_requirement($num_students, $hours);
+			echo $this->admin_model->insert_member_requirement($num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
-		* update_family_requirement
+		* update_member_requirement
 		* This method updates the existing hourly requirements
 		* 
 		* Params & Return: NONE 
 		*------------------------------------------------------------*/
-		public function update_family_requirement()
+		public function update_member_requirement()
 		{
 			
 			$num_students = $this->input->post('num');
 			$hours = $this->input->post('hours');
 			$id = $this->input->post('id');
 
-			echo $this->admin_model->update_family_requirement($id, $num_students, $hours);
+			echo $this->admin_model->update_member_requirement($id, $num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
-		* delete_family_requirement
+		* delete_member_requirement
 		* This method deleted an hourly requirement
 		* 
 		* Params & Return: NONE 
 		*------------------------------------------------------------*/
-		public function delete_family_requirement()
+		public function delete_member_requirement()
 		{
 
 			$num_students = $this->input->post('num');
 			$hours = $this->input->post('hours');
 			$id = $this->input->post('id');
 
-			echo $this->admin_model->delete_family_requirement($id, $num_students, $hours);
+			echo $this->admin_model->delete_member_requirement($id, $num_students, $hours);
 		}
 
 		/*------------------------------------------------------------
@@ -1178,7 +1178,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_student_body', $data);
 		}
@@ -1192,7 +1192,7 @@ class Admin_controller extends CI_Controller {
 		public function remove_student()
 		{
 			$this->form_validation->set_rules('student_id', 'student', 'required');
-			$this->form_validation->set_rules('user_id', 'family', 'required');
+			$this->form_validation->set_rules('user_id', 'member', 'required');
 		
 			if ($this->form_validation->run()){
 
@@ -1238,7 +1238,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Removal/remove_facilitator_body', $data);
 		}
@@ -1286,44 +1286,44 @@ class Admin_controller extends CI_Controller {
 		
 		}
 
-		/* FAMILY REMOVAL */
+		/* member REMOVAL */
 
      	/*--------------------------------------------------------------------------------------------------
-		* family_removal
-		* This method displays the remove family view
+		* member_removal
+		* This method displays the remove member view
 		*
 		* Params: A user message to display 
 		* Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function family_removal($message = "")
+		public function member_removal($message = "")
 		{
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
-			$this->load->view($this->admin_views . 'Account Removal/remove_family_body', $data);
+			$this->load->view($this->admin_views . 'Account Removal/remove_member_body', $data);
 		}
 
 		/*--------------------------------------------------------------------------------------------------
-		* remove_family
+		* remove_member
 		* This method removes a famiy account based on the form data
 		*
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function remove_family()
+		public function remove_member()
 		{
 			$this->form_validation->set_rules('username', 'username', 'required');
 		
 			if ($this->form_validation->run()){
 
 				$user_id = $this->input->post('username');
-				$this->admin_model->remove_family_account($user_id); 
-				$this->family_removal('Account successfully removed');
+				$this->admin_model->remove_member_account($user_id); 
+				$this->member_removal('Account successfully removed');
 
 			}
 			else {
-				$this->family_removal();
+				$this->member_removal();
 			}
 		}
 
@@ -1513,7 +1513,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Creation/create_facilitator_body', $data);
 		}
@@ -1531,7 +1531,7 @@ class Admin_controller extends CI_Controller {
 			$this->form_validation->set_rules('phone_number', 'Phone Number', 'required|regex_match[/^[0-9]{10}$/]');
 			$this->form_validation->set_rules('email', 'Email', 'required');
 			$this->form_validation->set_rules('address', 'Address', 'required');
-			$this->form_validation->set_rules('user_id', 'Family Username', 'required');
+			$this->form_validation->set_rules('user_id', 'member Username', 'required');
 
 			if ($this->form_validation->run()){
 				
@@ -1571,7 +1571,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 
 			$data['classroom_data'] = $this->calendar_model->getClasses();
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();	
+			$data['member_info'] = $this->admin_model->getmemberUserIds();	
 			$data['message'] = $message;		
 
 			$this->load->view($this->admin_views . 'sidebar');
@@ -1590,7 +1590,7 @@ class Admin_controller extends CI_Controller {
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required');
 
 			$this->form_validation->set_rules('grade', 'Grade', 'required');
-			$this->form_validation->set_rules('user_id', 'Family', 'required');
+			$this->form_validation->set_rules('user_id', 'member', 'required');
 			$this->form_validation->set_rules('classroom_id', 'Classroom', 'required');
 			
 			
@@ -1639,7 +1639,7 @@ class Admin_controller extends CI_Controller {
 
 		/*--------------------------------------------------------------------------------------------------
 		* create_teacher
-		* This method creates a new family based on the form data
+		* This method creates a new member based on the form data
 		*
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
@@ -1672,31 +1672,31 @@ class Admin_controller extends CI_Controller {
 
 		}
 
-		/* FAMILY CREATION */
+		/* member CREATION */
 
 		/*--------------------------------------------------------------------------------------------------
-		* family_creation()
-		* This method displays the create family view
+		* member_creation()
+		* This method displays the create member view
 		*
 		* Params: A user message to display 
 		* Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function family_creation($message = "")
+		public function member_creation($message = "")
 		{
 			$this->check_login();
 			
 			$data['message'] = $message;
 			$this->load->view($this->admin_views . 'sidebar');
-			$this->load->view($this->admin_views . 'Account Creation/create_family_body', $data);
+			$this->load->view($this->admin_views . 'Account Creation/create_member_body', $data);
 		}
 
 		/*--------------------------------------------------------------------------------------------------
-		* create_family
-		* This method creates a new family based on the form data
+		* create_member
+		* This method creates a new member based on the form data
 		*
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function create_family()
+		public function create_member()
 		{
 			$this->form_validation->set_rules('username', 'User Name', 'required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
@@ -1707,15 +1707,15 @@ class Admin_controller extends CI_Controller {
 				
 				$username = $this->input->post('username');
 				$password = $this->input->post('password');
-				$message = $this->admin_model-> create_family_account($username, $password);
+				$message = $this->admin_model-> create_member_account($username, $password);
 
-				$this->family_creation($message);
+				$this->member_creation($message);
 
 			} 
 
 			else {
 
-				$this->family_creation();
+				$this->member_creation();
 
 			}
 
@@ -1739,31 +1739,31 @@ class Admin_controller extends CI_Controller {
 		}
 
 		/*--------------------------------------------------------------------------------------------------
-		* family_edit 
-		* This method loads the family edit view with all needed data
+		* member_edit 
+		* This method loads the member edit view with all needed data
 		*
 		* Params: A user message to display 
 		* Returns: None
 		*--------------------------------------------------------------------------------------------*/
-		public function family_edit($message = "")
+		public function member_edit($message = "")
 		{
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 			$this->load->view($this->admin_views . 'sidebar');
-			$this->load->view($this->admin_views . 'Account Edit/edit_family_body', $data);
+			$this->load->view($this->admin_views . 'Account Edit/edit_member_body', $data);
 		}
 
 		/*--------------------------------------------------------------------------------------------------
-		* edit_family
+		* edit_member
 
-		* This method validates the edit_family form and then passes the info to the model for updating
+		* This method validates the edit_member form and then passes the info to the model for updating
 		*
 		* Params: None
 		* Returns: A user message to display 
 		*--------------------------------------------------------------------------------------------*/
-		public function edit_family()
+		public function edit_member()
 		{
 			$this->form_validation->set_rules('user_id', 'Username', 'required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
@@ -1775,11 +1775,11 @@ class Admin_controller extends CI_Controller {
 				$pw = $this->input->post('password');
 
 				$message = $this->admin_model->edit_account($user_id,$pw);
-				$this->family_edit($message);
+				$this->member_edit($message);
 			}
 			else 
 			{	
-				$this->family_edit();
+				$this->member_edit();
 			}
 		}
 
@@ -1795,7 +1795,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIds();
+			$data['member_info'] = $this->admin_model->getmemberUserIds();
 
 			$this->load->view($this->admin_views . 'sidebar');
 			$this->load->view($this->admin_views . 'Account Edit/edit_facilitator_body', $data);
@@ -2008,7 +2008,7 @@ class Admin_controller extends CI_Controller {
 			$this->check_login();
 			
 			$data['message'] = $message;
-			$data['family_info'] = $this->admin_model->getFamilyUserIdsWithStudents();
+			$data['member_info'] = $this->admin_model->getmemberUserIdsWithStudents();
 			$data['classroom_data'] = $this->calendar_model->getClasses();
 
 			$this->load->view($this->admin_views . 'sidebar');
@@ -2025,7 +2025,7 @@ class Admin_controller extends CI_Controller {
 		*--------------------------------------------------------------------------------------------*/
 		public function edit_student()
 		{
-			$this->form_validation->set_rules('user_id', 'Family', 'required');
+			$this->form_validation->set_rules('user_id', 'member', 'required');
 			$this->form_validation->set_rules('student_id', 'Student', 'required');
 			$this->form_validation->set_rules('classroom_id', 'Classroom', 'required');
 			$this->form_validation->set_rules('f_name', 'First Name', 'trim|required');

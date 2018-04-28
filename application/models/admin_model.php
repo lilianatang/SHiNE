@@ -20,10 +20,10 @@ class Admin_model extends CI_Model {
 	/* ------------------------------------------ GETTER METHODS FOR FILLING DROPDOWNS  ---------------------------------------------  */
 
 	/*-----------------------------------------------
-	* getFamilyUserIds
-	* This method retrieves all user ids that are family users
+	* getMemberUserIds
+	* This method retrieves all user ids that are Member users
 	*-----------------------------------------------*/
-	public function getFamilyUserIds()
+	public function getMemberUserIds()
 	{
 		/*"Select username, user_id
 				  from users
@@ -36,10 +36,10 @@ class Admin_model extends CI_Model {
 	}
 
 	/*-----------------------------------------------
-	* getFamilyUserIds
-	* This method retrieves all user ids that are family users that have students
+	* getMemberUserIds
+	* This method retrieves all user ids that are Member users that have students
 	*-----------------------------------------------*/
-	public function getFamilyUserIdsWithStudents()
+	public function getMemberUserIdsWithStudents()
 	{
 		/*"Select username, user_id
 		  from users
@@ -74,10 +74,10 @@ class Admin_model extends CI_Model {
 	}
 
 	/*
-	* getFamilyStudents gets all the students that belong to a 
-	* family with the specified user id
+	* getMemberStudents gets all the students that belong to a 
+	* Member with the specified user id
 	*
-	* parameters: user_id corresponding to the family
+	* parameters: user_id corresponding to the Member
 	* return: The query result
 	*/
 	public function get_students($userID)
@@ -91,47 +91,47 @@ class Admin_model extends CI_Model {
 
 	
 
-	public function get_family_usernames()
+	public function get_Member_usernames()
 	{
-		$this->db->select("username, family_id");
-		$this->db->from('users, family');
-		$this->db->where('users.user_id = family.user_id');
+		$this->db->select("username, Member_id");
+		$this->db->from('users, Member');
+		$this->db->where('users.user_id = Member.user_id');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 
 	/**
-	* getFamilyID gets a family id based on a corresponding user id
+	* getMemberID gets a Member id based on a corresponding user id
 	*
 	* parameters: userID to look for
 	* return: none
 	*/
-	public function getFamilyId ($userID)
+	public function getMemberId ($userID)
 	{
 		/*
-			Select family_id
-				  from family
-				  where family.user_id = $userID
+			Select Member_id
+				  from Member
+				  where Member.user_id = $userID
 		*/
-		$this->db->select("family_id");
-		$this->db->from('family');
+		$this->db->select("Member_id");
+		$this->db->from('Member');
 		$this->db->where('user_id', $userID);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
-	/* ---------------------------------------------- ADMIN FAMILY STATISTICS ---------------------------------------------  */
+	/* ---------------------------------------------- ADMIN Member STATISTICS ---------------------------------------------  */
 
 	/**
 	*
-	* getFamilyHistory gets all the data from the history table
-	* that pertains to a family
+	* getMemberHistory gets all the data from the history table
+	* that pertains to a Member
 	*
 	* parameters: userID, year to check in, month to check in
 	* return: none
 	*/
-	public function getFamilyHistory($userID,$year,$month)
+	public function getMemberHistory($userID,$year,$month)
 	{
 		$this->db->select("start_date");
 		$this->db->select("end_date"); 
@@ -226,7 +226,7 @@ class Admin_model extends CI_Model {
 	public function get_preset_requirements()
 	{
 		$this->db->select("*");
-		$this->db->from('family_requirements');
+		$this->db->from('Member_requirements');
 		$this->db->order_by('number_of_students', "asc");
 		$query = $this->db->get();
 
@@ -234,26 +234,26 @@ class Admin_model extends CI_Model {
 	}
 
 	/*------------------------------------------------------------
-	* insert_family_requirement
-	* This method inserts a new rule for family requirements	
+	* insert_Member_requirement
+	* This method inserts a new rule for Member requirements	
 	* 
 	* Params: Num_students - Number of students the rule applies to
 	*         required_hours - requred hours to add to the new rule 
 	* 
 	* Return: The new rule_id generated on insert 
 	*------------------------------------------------------------*/
-	public function insert_family_requirement($num_students, $required_hours)
+	public function insert_Member_requirement($num_students, $required_hours)
 	{
 		$data = array ('number_of_students' => $num_students, 'required_hours' => $required_hours );
 		
-		$this->db->insert('family_requirements', $data);
+		$this->db->insert('Member_requirements', $data);
 
 		return $this->db->insert_id();
 	}
 
 	/*------------------------------------------------------------
-	* update_family_requirement
-	* This method updates an existing rule for family requirements
+	* update_Member_requirement
+	* This method updates an existing rule for Member requirements
 	* 
 	* Params: id - the rule_id of the rule 
 	*         Num_students - Number of students the rule applies to
@@ -261,17 +261,17 @@ class Admin_model extends CI_Model {
 	* 
 	* Return: None
 	*------------------------------------------------------------*/
-	public function update_family_requirement($id, $num_students, $required_hours)
+	public function update_Member_requirement($id, $num_students, $required_hours)
 	{
 		$this->db->set('number_of_students', $num_students);
 		$this->db->set('required_hours', $required_hours);
 		$this->db->where('rule_id', $id);
-		return $this->db->update('family_requirements');
+		return $this->db->update('Member_requirements');
 	}
 
 	/*------------------------------------------------------------
-	* delete_family_requirement
-	* This method deletes an existing rule in family requirements
+	* delete_Member_requirement
+	* This method deletes an existing rule in Member requirements
 	* 
 	* Params: id - the rule_id of the rule 
 	*         Num_students - Number of students the rule applies to
@@ -279,10 +279,10 @@ class Admin_model extends CI_Model {
 	* 
 	* Return: None
 	*------------------------------------------------------------*/
-	public function delete_family_requirement($id, $num_students, $required_hours)
+	public function delete_Member_requirement($id, $num_students, $required_hours)
 	{
 		$this->db->where('rule_id', $id);
-		return $this->db->delete('family_requirements');
+		return $this->db->delete('Member_requirements');
 	}
 
 	/*------------------------------------------------------------
@@ -665,7 +665,7 @@ class Admin_model extends CI_Model {
 	*--------------------------------------------------------------------------------------------*/
 	public function get_history_data(){
 		
-		$this->db->select("username as 'family username', start_date as 'start date', end_date as 'end date', completed_hours as 'completed hours', required_hours as 'required hours', hours_given as hours given, hours_received as hours received");
+		$this->db->select("username as 'Member username', start_date as 'start date', end_date as 'end date', completed_hours as 'completed hours', required_hours as 'required hours', hours_given as hours given, hours_received as hours received");
 		$this->db->from('history');
 		$this->db->join('users', 'history.user_id = users.user_id');
 		$this->db->order_by("username", 'asc');
@@ -762,7 +762,7 @@ class Admin_model extends CI_Model {
 		
 		/*
 		"INSERT INTO facilitator(user_id, first_name, last_name, email, address, phone_number) VALUES"
-			. "($family_id, '$first_name','$last_name', '$phone_number', '$email', '$address')";
+			. "($Member_id, '$first_name','$last_name', '$phone_number', '$email', '$address')";
 		*/
 		
 		$this->db->insert('facilitator', $data);
@@ -815,13 +815,13 @@ class Admin_model extends CI_Model {
 	}
 
 	/*--------------------------------------------------------------------------------------------------
-	* create_family_account()
-	* This method creates a new family account with the provided fields.
+	* create_Member_account()
+	* This method creates a new Member account with the provided fields.
 	*
 	* Params: A username and password for the new account  
 	* Returns: An error message or success message
 	*--------------------------------------------------------------------------------------------*/
-	function create_family_account($username, $password) {
+	function create_Member_account($username, $password) {
 		
 		if ($this->checkDuplicateUsername($username)){
 			return 'Duplicated username! Please choose another username!';
@@ -829,14 +829,14 @@ class Admin_model extends CI_Model {
 
 		$this->create_new_user($username, $password, 2);
 
-		return "Family successfully created!";
+		return "Member successfully created!";
 	}
 
 	/*--------------------------------------------------------------------------------------------------
 	* create_new_user
 	* This method creates a new entry in the users table
 	*
-	* Params: username, password & role id - (1 for admin, 2 for family, 3 for boardmember, 4 for teacher, and 5 for general)
+	* Params: username, password & role id - (1 for admin, 2 for Member, 3 for boardmember, 4 for teacher, and 5 for general)
 	* Returns: None
 	*--------------------------------------------------------------------------------------------*/
 	private function create_new_user($username, $password, $role)
@@ -855,7 +855,7 @@ class Admin_model extends CI_Model {
 	* getUsernames
 	* This method gets all the usernames of users of the provided role id
 	*
-	* Params: role id - (1 for admin, 2 for family, 3 for boardmember, 4 for teacher, and 5 for general)
+	* Params: role id - (1 for admin, 2 for Member, 3 for boardmember, 4 for teacher, and 5 for general)
 	* Returns: The query result in the form of an associatve array 
 	*--------------------------------------------------------------------------------------------*/
 	public function getUsernames($role)
@@ -871,7 +871,7 @@ class Admin_model extends CI_Model {
 	* remove_account
 	* This method removes users with the given username and role
 	*
-	* Params: role id - (1 for admin, 2 for family, 3 for boardmember, 4 for teacher, and 5 for general) & username
+	* Params: role id - (1 for admin, 2 for Member, 3 for boardmember, 4 for teacher, and 5 for general) & username
 	* Returns: None
 	*--------------------------------------------------------------------------------------------*/
 	private function remove_account($username, $role)
@@ -928,20 +928,20 @@ class Admin_model extends CI_Model {
 	}
 
 	/*--------------------------------------------------------------------------------------------------
-	* remove_family_account
+	* remove_Member_account
 	* This method removes a famiy account based on the form data
-	* This also deletes all associated facilitators and students in the family! (might change when we can edit them)
+	* This also deletes all associated facilitators and students in the Member! (might change when we can edit them)
 	*
 	* Params & Returns: None
 	*--------------------------------------------------------------------------------------------*/
-	function remove_family_account($user_id){
+	function remove_Member_account($user_id){
 
 		// Delete from users
 		$this->db->where('user_id', $user_id);
 		$this->db->where('role', 2);
 		$this->db->delete('users');
 
-		//delete all the facilitators from that family
+		//delete all the facilitators from that Member
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('facilitator');
 
@@ -1187,7 +1187,7 @@ class Admin_model extends CI_Model {
 	* punch_in
 	* This method punches the given facilitator in
 	*
-	* Params: family userid and Id of the facilitator to punch in 
+	* Params: Member userid and Id of the facilitator to punch in 
 	* Return: An error or success message
 	*--------------------------------------------------------------------------------------------*/
 	public function punch_in($facilitator_id){
@@ -1217,7 +1217,7 @@ class Admin_model extends CI_Model {
 	* isPunchedIn
 	* This method determines if the facilitator is already punched in
 	*
-	* Params: Family user id and facilitator id of the facilitator punching in, and current date punched in
+	* Params: Member user id and facilitator id of the facilitator punching in, and current date punched in
 	* Return: True if they've punched in already and false otherwise
 	*--------------------------------------------------------------------------------------------*/
 	public function isPunchedIn($facilitator_id, $current_date){
@@ -1241,7 +1241,7 @@ class Admin_model extends CI_Model {
 	* punch_out
 	* This method punches the given facilitator  out
 	*
-	* Params: family userid and Id of the facilitator to punch in 
+	* Params: Member userid and Id of the facilitator to punch in 
 	* Return: An error or success message
 	*--------------------------------------------------------------------------------------------*/
 	public function punch_out($user_id, $facilitator_id){
@@ -1352,9 +1352,9 @@ class Admin_model extends CI_Model {
 
 	/*---------------------------------------------------------------------------------
 	* get_required_hours
-	* This method retrieves the required number of hours of a family
+	* This method retrieves the required number of hours of a Member
 	*
-	* Parameters: $user_id - a family's user id
+	* Parameters: $user_id - a Member's user id
 	*             
 	* Return: The number of hours required each facilitation week 
 	*------------------------------------------------------------------------------------------*/
@@ -1363,7 +1363,7 @@ class Admin_model extends CI_Model {
 		$num_students =  $this->get_number_students($user_id);
 
 		$this->db->select("*");
-		$this->db->from('family_requirements');
+		$this->db->from('Member_requirements');
 		$this->db->order_by("number_of_students", "asc");
 		$query = $this->db->get();
 
@@ -1385,11 +1385,11 @@ class Admin_model extends CI_Model {
 
 	/*---------------------------------------------------------------------------------
 	* get_number_students
-	* This method retrieves the  number of students of a family
+	* This method retrieves the  number of students of a Member
 	*
-	* Parameters: $user_id - a family's user id
+	* Parameters: $user_id - a Member's user id
 	*             
-	* Return: The number of students in the family
+	* Return: The number of students in the Member
 	*------------------------------------------------------------------------------------------*/
 	private function get_number_students($user_id)
 	{

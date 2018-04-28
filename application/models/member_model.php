@@ -4,7 +4,7 @@
 * This Class allows for database access. Any time a database query needs to be made, create a method here!
 ---------------------------------------------------------------------------------------------------------*/
 
-class Family_model extends CI_Model {
+class Member_model extends CI_Model {
 	
 	/*-----------------------------------------------------
 	* __construct
@@ -171,7 +171,7 @@ class Family_model extends CI_Model {
 				// finds info base on whats between the dates given by the user
 				->where('facilitation_times.date_scheduled BETWEEN "'. $date_start . '" and "'. $date_end .'"')
 			->group_end();
-			//collects the data for all facilitators who are a part of that family.
+			//collects the data for all facilitators who are a part of that Member.
 			$this->db->group_start();
 			
 			foreach ($facilitator_ids_array as $row){
@@ -211,10 +211,10 @@ class Family_model extends CI_Model {
 	*/
 
 	/*-----------------------------------------------
-	* getFamilyUserIds
-	* This method retrieves all user ids that are family users along with the number of hours they need to satisfy their required hours 
+	* getMemberUserIds
+	* This method retrieves all user ids that are Member users along with the number of hours they need to satisfy their required hours 
 	*-----------------------------------------------*/
-	public function getFamilyUserIds($user_id, $month)
+	public function getMemberUserIds($user_id, $month)
 	{
 		$this->db->select("SUM(required_hours - completed_hours + hours_given - hours_received) as total");
 		$this->db->from('history');
@@ -236,7 +236,7 @@ class Family_model extends CI_Model {
 	* get_donatable_records
 	* This method retrieves all the records in the history table that include donatable hours for the given month number
 	*
-	* Parameters: $user_id = Family's user id of the family we're looking at
+	* Parameters: $user_id = Member's user id of the Member we're looking at
 	*             $month = An integer representation of month (ex. 2 = February)
 	*
 	* Return: Query result 
@@ -261,7 +261,7 @@ class Family_model extends CI_Model {
 	* get_donatable_hours
 	* This method retrieves the total number of hours the user can donate 
 	*
-	* Parameters: $user_id = Family's user id of the family we're looking at
+	* Parameters: $user_id = Member's user id of the Member we're looking at
 	*             $month = An integer representation of month (ex. 2 = February)
 	*
 	* Return: An integer total
@@ -284,7 +284,7 @@ class Family_model extends CI_Model {
 	* get_missing_hours
 	* This method retrieves the total number of hours the user needs
 	*
-	* Parameters: $user_id = Family's user id of the family we're looking at
+	* Parameters: $user_id = Member's user id of the Member we're looking at
 	*             $month = An integer representation of month (ex. 2 = February)
 	*
 	* Return: An integer total
@@ -306,7 +306,7 @@ class Family_model extends CI_Model {
 	* get_missing_weeks
 	* This method retrieves all the records in the history table that include missing hours for the given month number
 	*
-	* Parameters: $user_id = Family's user id of the family we're looking at
+	* Parameters: $user_id = Member's user id of the Member we're looking at
 	*             $month = An integer representation of month (ex. 2 = February)
 	*
 	* Return: Query result 
@@ -330,8 +330,8 @@ class Family_model extends CI_Model {
 	* give_to_current_week
 	* This method donates the given number of hours to the recipient for the current facilitation week
 	*
-	* Parameters: $recipient_id = Family's user id of the receiving family
-	*             $num_hours = An integer representation of the number of hours being donated to the family
+	* Parameters: $recipient_id = Member's user id of the receiving Member
+	*             $num_hours = An integer representation of the number of hours being donated to the Member
 	*
 	* Return: None
 	*------------------------------------------------------------------------------------------*/
@@ -372,9 +372,9 @@ class Family_model extends CI_Model {
 
 	/*---------------------------------------------------------------------------------
 	* get_required_hours
-	* This method retrieves the required number of hours of a family
+	* This method retrieves the required number of hours of a Member
 	*
-	* Parameters: $user_id - a family's user id
+	* Parameters: $user_id - a Member's user id
 	*             
 	* Return: The number of hours required each facilitation week 
 	*------------------------------------------------------------------------------------------*/
@@ -383,7 +383,7 @@ class Family_model extends CI_Model {
 		$num_students =  $this->get_number_students($user_id);
 
 		$this->db->select("*");
-		$this->db->from('family_requirements');
+		$this->db->from('Member_requirements');
 		$this->db->order_by("number_of_students", "asc");
 		$query = $this->db->get();
 
@@ -404,11 +404,11 @@ class Family_model extends CI_Model {
 
 	/*---------------------------------------------------------------------------------
 	* get_number_students
-	* This method retrieves the  number of students of a family
+	* This method retrieves the  number of students of a Member
 	*
-	* Parameters: $user_id - a family's user id
+	* Parameters: $user_id - a Member's user id
 	*             
-	* Return: The number of students in the family
+	* Return: The number of students in the Member
 	*------------------------------------------------------------------------------------------*/
 	private function get_number_students($user_id)
 	{
@@ -425,8 +425,8 @@ class Family_model extends CI_Model {
 	* update_donor_hours
 	* This method updates the donor's facilitation hours based on what they donated
 	*
-	* Parameters: $donor = Family's user id of the donating family
-	*             $hours_donated = The number of hours the family donated
+	* Parameters: $donor = Member's user id of the donating Member
+	*             $hours_donated = The number of hours the Member donated
 	*
 	* Return: None
 	*------------------------------------------------------------------------------------------*/
@@ -468,12 +468,12 @@ class Family_model extends CI_Model {
 
 	/*---------------------------------------------------------------------------------
 	* donate_hours
-	* This method allows for donation of hours from one family to another 
+	* This method allows for donation of hours from one Member to another 
 	*
-	* Parameters: $donor = Family's user id of the donating family
-	*             $recipient_id = Family's user id of the receiving family
-	*             $donation = The number of hours the donor family donated
-	*             $month = the month the family wishes to donate for 
+	* Parameters: $donor = Member's user id of the donating Member
+	*             $recipient_id = Member's user id of the receiving Member
+	*             $donation = The number of hours the donor Member donated
+	*             $month = the month the Member wishes to donate for 
 	*
 	* Return: None
 	*------------------------------------------------------------------------------------------*/

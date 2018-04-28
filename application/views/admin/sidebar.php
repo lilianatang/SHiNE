@@ -42,7 +42,7 @@
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div>
-                    <img id="logo" src="<?php echo  base_url('media/portal-logo.png'); ?>"></img>
+                    <img id="logo" src="<?php echo  base_url('media/shine_logo.jpg'); ?>"></img>
                 </div>
                 <ul class="list-unstyled components">
                     

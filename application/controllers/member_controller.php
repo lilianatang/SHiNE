@@ -1,6 +1,6 @@
 <?php
 
-class Family_controller extends CI_Controller {
+class Member_controller extends CI_Controller {
 
 
 		/*-------------------------------------------------------
@@ -12,7 +12,7 @@ class Family_controller extends CI_Controller {
                 parent::__construct();
 
                 // Loads models for connecting with the database 
-                $this->load->model('family_model');
+                $this->load->model('member_model');
                 $this->load->model('calendar_model');
                 // This is a tool used to generate a URL and link a new page 
                 $this->load->helper('url_helper');
@@ -21,7 +21,7 @@ class Family_controller extends CI_Controller {
               	 $this->load->library('form_validation');
               	// These variables just hold the names of the folders that contain their respective views
               	// in case we want to change the folders later
-              	$this->family_views = "family/";
+              	$this->member_views = "member/";
 				$this->calendar_views = "calendar/";
                
         }
@@ -47,13 +47,13 @@ class Family_controller extends CI_Controller {
         {
 
        		// PLEASE NOTE: If you want another page to show up first, links will need to be changed! PLEASE BE CAREFUL!!!
-			redirect('family_controller/mybookings');
+			redirect('member_controller/mybookings');
 			
 		}
 
 		/*--------------------------------------------------------------------------------------------------
 		* calendar()
-		* This method loads the family calendar view
+		* This method loads the member calendar view
 		*
 		* Params & Returns: None
 		*--------------------------------------------------------------------------------------------*/
@@ -63,12 +63,12 @@ class Family_controller extends CI_Controller {
 		 	$this->check_login();
 			$classroom_data = $this->calendar_model->getClasses();
 			$data['classroom_data'] = $classroom_data;
-			$data['js'] = "script/family-calendar.js";
+			$data['js'] = "script/member-calendar.js";
 			$data['title'] = 'Book Facilitation';
 			$data['user_message'] = 'Select a week, classroom, and then a facilitation slot.';
 			$data['error_message'] = null;
 
-			$this->load->view($this->family_views . 'family_sidebar');
+			$this->load->view($this->member_views . 'member_sidebar');
 			$this->load->view(  $this->calendar_views . 'calendar_body', $data);
 		}
 
@@ -93,7 +93,7 @@ class Family_controller extends CI_Controller {
 		* Note: Called by the calendar file
 		*--------------------------------------------------------------------------------------------*/
 		private function load_header(){
-			$this->load->view('templates/familyHeader');
+			$this->load->view('templates/memberHeader');
 		}
 
 
@@ -102,10 +102,10 @@ class Family_controller extends CI_Controller {
 		* This method loads the sign up form view for the modal
 		*
 		* Params & Returns: None
-		* Note: Called by the family calendar js file
+		* Note: Called by the member calendar js file
 		*--------------------------------------------------------------------------------------------*/
 		public function load_sign_up(){
-			$this->load->view(  $this->family_views . 'facilitation-sign-up');
+			$this->load->view(  $this->member_views . 'facilitation-sign-up');
 		}
 
 		/*--------------------------------------------------------------------------------------------------
@@ -113,10 +113,10 @@ class Family_controller extends CI_Controller {
 		* This method loads the sign up form view for the modal for fieldtrips
 		*
 		* Params & Returns: None
-		* Note: Called by the family calendar js file
+		* Note: Called by the member calendar js file
 		*--------------------------------------------------------------------------------------------*/
 		public function load_sign_up_fieldtrip(){
-			$this->load->view(  $this->family_views . 'fieldtrip-sign-up');
+			$this->load->view(  $this->member_views . 'fieldtrip-sign-up');
 		}
 
 		/*----------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ class Family_controller extends CI_Controller {
 
 		/*--------------------------------------------------------------------------------------------------
 		* get_facilitator_data()
-		* This method gathers the facilitator days and names of the corresponding family id logged in
+		* This method gathers the facilitator days and names of the corresponding member id logged in
 		*
 		* Params & Returns: None
 		* PLEASE NOTE: This method echos out the data for the corresponding javascript recipient file
@@ -149,7 +149,7 @@ class Family_controller extends CI_Controller {
 
 			// Gather data from the caller file 
 			$user_id = $this->session->userdata('user_id');
-			$result = $this->family_model-> get_facilitators($user_id);
+			$result = $this->member_model-> get_facilitators($user_id);
 
 			// Echo data 
 			foreach ($result as $row){
@@ -181,7 +181,7 @@ class Family_controller extends CI_Controller {
 		* This method books a facilitation booking based on the information in the facilitation sign up form
 		*
 		* Params & Returns: None
-		* Note: Called by the family calendar js file
+		* Note: Called by the member calendar js file
 		*--------------------------------------------------------------------------------------------*/
 		public function book_facilitation(){
 
@@ -191,7 +191,7 @@ class Family_controller extends CI_Controller {
 			$facilitator_id = $this->input->post('f_id');
 
 			// Insert into database if there aren't any conflicts 
-			$this->family_model->book($slot_id, $notes, $facilitator_id);
+			$this->member_model->book($slot_id, $notes, $facilitator_id);
 		}
 
 
@@ -223,12 +223,12 @@ class Family_controller extends CI_Controller {
 			$end_date = Date("2099-12-31");
 			echo "this is the message: " + $message;
 
-			// gets the family id
+			// gets the member id
 			$user_id = $this->session->userdata('user_id');
 			$data['message'] = $message;
-			// gets all the facilitators corresponding to the family id
-			$facilitator_ids = $this->family_model-> get_facilitators($user_id);
-			$mybookings_data = $this->family_model->my_bookings_data($facilitator_ids,$start_date,$end_date);
+			// gets all the facilitators corresponding to the member id
+			$facilitator_ids = $this->member_model-> get_facilitators($user_id);
+			$mybookings_data = $this->member_model->my_bookings_data($facilitator_ids,$start_date,$end_date);
 			$data['mybookings_data'] = $this->convert_displayable($mybookings_data);
 			// Check if someone is currently logged in 
 			if (empty($mybookings_data))
@@ -237,10 +237,10 @@ class Family_controller extends CI_Controller {
 			}
 
 		 	$this->check_login();
-			//$this->load->view(  $this->family_views . 'my_booking_head');  
+			//$this->load->view(  $this->member_views . 'my_booking_head');  
 			//$this->load_header();
-			$this->load->view($this->family_views . 'family_sidebar');
-			$this->load->view(  $this->family_views . 'my_booking_body', $data);
+			$this->load->view($this->member_views . 'member_sidebar');
+			$this->load->view(  $this->member_views . 'my_booking_body', $data);
 		}
 
 		public function date_submit()
@@ -261,18 +261,18 @@ class Family_controller extends CI_Controller {
 				if ($s_date <= $e_date)
 				{
 
-					// gets the family id
+					// gets the member id
 					$user_id = $this->session->userdata('user_id');
 					
-					// gets all the facilitators corresponding to the family id
-					$facilitator_ids = $this->family_model-> get_facilitators($user_id);
+					// gets all the facilitators corresponding to the member id
+					$facilitator_ids = $this->member_model-> get_facilitators($user_id);
 
 					// convert date object into a string i can use for my queries.
 					$start_date = $s_date->format('Y-m-d');
 					$end_date = $e_date->format('Y-m-d');
 
 					// call model method to retrieve data for the html table
-					$mybookings_data = $this->family_model->my_bookings_data($facilitator_ids,$start_date,$end_date);
+					$mybookings_data = $this->member_model->my_bookings_data($facilitator_ids,$start_date,$end_date);
 					$data['mybookings_data'] = $this->convert_displayable($mybookings_data);
 					$data['message'] = '';
 					
@@ -281,10 +281,10 @@ class Family_controller extends CI_Controller {
 						$data['message'] = 'You are not signed up for any slots in this time range!';
 					}
 					// pass new data into table
-					//$this->load->view(  $this->family_views . 'my_booking_head');  
+					//$this->load->view(  $this->member_views . 'my_booking_head');  
 					//$this->load_header();
-					$this->load->view($this->family_views . 'family_sidebar');
-					$this->load->view(  $this->family_views . 'my_booking_body', $data);
+					$this->load->view($this->member_views . 'member_sidebar');
+					$this->load->view(  $this->member_views . 'my_booking_body', $data);
 
 				}
 				else
@@ -331,10 +331,10 @@ class Family_controller extends CI_Controller {
 		public function donation($message = "")
 		{
 			$this->check_login();
-			//$this->load->view($this->family_views .'donate_hours_head');
+			//$this->load->view($this->member_views .'donate_hours_head');
 			//$this->load_header();
-			$this->load->view($this->family_views . 'family_sidebar');
-			$this->load->view($this->family_views .'donate_hours_body');
+			$this->load->view($this->member_views . 'member_sidebar');
+			$this->load->view($this->member_views .'donate_hours_body');
 		}
 
 		/*--------------------------------------------------------------------------------------------------
@@ -347,25 +347,25 @@ class Family_controller extends CI_Controller {
 		public function donation_main_page($month, $message = "")
 		{
 			$user_id = $this->session->userdata('user_id');
-			$data['max_donation'] = $this->family_model->get_donatable_hours($user_id, $month);
+			$data['max_donation'] = $this->member_model->get_donatable_hours($user_id, $month);
 
 			if ($data['max_donation'] == 0)
 			{
-				//$this->load->view($this->family_views .'donation_main_head');
+				//$this->load->view($this->member_views .'donation_main_head');
 				//$this->load_header();
-				$this->load->view($this->family_views . 'family_sidebar');
-				$this->load->view($this->family_views .'donation_main_body_no_hours');
+				$this->load->view($this->member_views . 'member_sidebar');
+				$this->load->view($this->member_views .'donation_main_body_no_hours');
 			}
 
 			else{
-				$data['family_info'] = $this->family_model->getFamilyUserIds($user_id, $month);
+				$data['member_info'] = $this->member_model->getmemberUserIds($user_id, $month);
 				$data['month'] = $month;
 				$data['message'] = $message;
 
-				//$this->load->view($this->family_views .'donation_main_head');
+				//$this->load->view($this->member_views .'donation_main_head');
 				//$this->load_header();
-				$this->load->view($this->family_views . 'family_sidebar');
-				$this->load->view($this->family_views .'donation_main_body', $data);
+				$this->load->view($this->member_views . 'member_sidebar');
+				$this->load->view($this->member_views .'donation_main_body', $data);
 			}		
 		}
 	
@@ -402,7 +402,7 @@ class Family_controller extends CI_Controller {
 		*--------------------------------------------------------------------------------------------*/
 		public function donate()
 		{
-			$this->form_validation->set_rules('user_id', 'family', 'required');
+			$this->form_validation->set_rules('user_id', 'member', 'required');
 			$this->form_validation->set_rules('donation', 'hour donation', 'required');
 			$month = $this->input->post('month'); // hidden field on the form
 
@@ -412,8 +412,8 @@ class Family_controller extends CI_Controller {
 				$recipient = $this->input->post('user_id');
 				$donation = $this->input->post('donation');
 
-				$this->family_model->donate_hours($month, $donor, $recipient, $donation);
-				redirect('family_controller/donation_success');
+				$this->member_model->donate_hours($month, $donor, $recipient, $donation);
+				redirect('member_controller/donation_success');
 				
 			}
 			else {
@@ -433,10 +433,10 @@ class Family_controller extends CI_Controller {
 		public function donation_success()
 		{
 			$this->check_login();
-			//$this->load->view($this->family_views .'donation_main_head');
+			//$this->load->view($this->member_views .'donation_main_head');
 			//$this->load_header();
-			$this->load->view($this->family_views . 'family_sidebar');
-			$this->load->view($this->family_views .'donation_main_body_success');
+			$this->load->view($this->member_views . 'member_sidebar');
+			$this->load->view($this->member_views .'donation_main_body_success');
 		}
 
 }
